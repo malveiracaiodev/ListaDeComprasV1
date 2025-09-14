@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart'; // Flutter framework
-import 'lista_page.dart'; // Importing the ListaPage
-import 'historico_page.dart'; // Importing the HistoricoPage
+import 'listapage.dart'; // Importing the ListaPage
+import 'historicopage.dart'; // Importing the HistoricoPage
 
 class HomePage extends StatelessWidget { // HomePage class definition
   const HomePage({super.key}); // Constructor

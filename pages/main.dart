@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart'; // Flutter framework
-import 'home_page.dart'; // Importing the HomePage
-import 'historico_page.dart'; // Correct import for HistoricoPage
+import 'homepage.dart'; // Importing the HomePage
+import 'historicopage.dart'; // Correct import for HistoricoPage
 
 void main() { // Main function
   runApp(const ListaComprasApp()); // Running the app
