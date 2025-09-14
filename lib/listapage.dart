@@ -18,13 +18,18 @@ class _ListaPageState extends State<ListaPage> { // State class for ListaPage
 
 void salvarListaAtual() async {
   final prefs = await SharedPreferences.getInstance();
-  final listaJson = jsonEncode({
+
+  final novaLista = {
     "mercado": mercadoCtrl.text,
     "itens": itens,
     "total": total,
-    "data": DateTime.now().toIso8601String(), 
-  });
-  await prefs.setString('ultima_lista', listaJson);
+    "data": DateTime.now().toIso8601String(),
+  };
+
+  final listasExistentes = prefs.getStringList('listas_salvas') ?? [];
+  listasExistentes.add(jsonEncode(novaLista));
+
+  await prefs.setStringList('listas_salvas', listasExistentes);
 }
 @override
 void dispose() {
@@ -34,29 +39,30 @@ void dispose() {
   List<Map<String, dynamic>> itens = []; // List to hold items
   double total = 0; // Variable to hold total value
 
-  void adicionarItem() { // Method to add item
-    final produto = produtoCtrl.text; // Getting product name
-    final marca = marcaCtrl.text; // Getting brand name
-    final valor = double.tryParse(valorCtrl.text) ?? 0; // Getting value and parsing to double
-    final quantidade = int.tryParse(quantidadeCtrl.text) ?? 1; // Getting quantity and parsing to int
+  void adicionarItem() {
+  final produto = produtoCtrl.text;
+  final marca = marcaCtrl.text;
+  final valorTexto = valorCtrl.text.replaceAll(',', '.');
+  final valor = double.tryParse(valorTexto) ?? 0;
+  final quantidade = int.tryParse(quantidadeCtrl.text) ?? 1;
 
-    if (produto.isEmpty || marca.isEmpty || valor <= 0) return; // Validating inputs
+  if (produto.isEmpty || marca.isEmpty || valor <= 0) return;
 
-   setState(() {
-  itens.add({
-    "produto": produto,
-    "marca": marca,
-    "valor": valor,
-    "quantidade": quantidade,
+  setState(() {
+    itens.add({
+      "produto": produto,
+      "marca": marca,
+      "valor": valor,
+      "quantidade": quantidade,
+    });
+    total += valor * quantidade;
   });
-  total += valor * quantidade;
-});
 
-    produtoCtrl.clear(); // Clearing product input
-    marcaCtrl.clear(); // Clearing brand input
-    valorCtrl.clear(); // Clearing value input
-    quantidadeCtrl.clear(); // Clearing quantity input
-  }
+  produtoCtrl.clear();
+  marcaCtrl.clear();
+  valorCtrl.clear();
+  quantidadeCtrl.clear();
+}
 
   @override // Overriding the build method
   Widget build(BuildContext context) { // Build method

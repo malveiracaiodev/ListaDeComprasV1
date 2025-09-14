@@ -19,23 +19,26 @@ class _HistoricoPageState extends State<HistoricoPage> {
   }
 
   void carregarHistorico() async {
-    final prefs = await SharedPreferences.getInstance();
-    final listaJson = prefs.getString('ultima_lista');
-    if (listaJson != null) {
-      final lista = jsonDecode(listaJson);
-      setState(() {
-        historico = [lista];
-      });
-    }
-  }
+  final prefs = await SharedPreferences.getInstance();
+  final listasJson = prefs.getStringList('listas_salvas') ?? [];
 
-  void excluirLista(int index) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove('ultima_lista');
-    setState(() {
-      historico.removeAt(index);
-    });
+  final listasDecodificadas = listasJson.map((json) => jsonDecode(json)).toList();
+
+  setState(() {
+    historico = List<Map<String, dynamic>>.from(listasDecodificadas);
+  });
   }
+void excluirLista(int index) async {
+  final prefs = await SharedPreferences.getInstance();
+  final listasJson = prefs.getStringList('listas_salvas') ?? [];
+
+  listasJson.removeAt(index);
+  await prefs.setStringList('listas_salvas', listasJson);
+
+  setState(() {
+    historico.removeAt(index);
+  });
+}
 
   @override
   Widget build(BuildContext context) {
