@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart'; // Flutter framework
-import 'listapage.dart'; // Importing the ListaPage
-import 'historicopage.dart'; // Importing the HistoricoPage
+
 
 class HomePage extends StatelessWidget { // HomePage class definition
   const HomePage({super.key}); // Constructor
@@ -16,23 +15,24 @@ class HomePage extends StatelessWidget { // HomePage class definition
           children: [ // Children of the column
             ElevatedButton.icon( // ElevatedButton with icon
               icon: const Icon(Icons.add), // Icon for the button
-              label: const Text('Criar Nova Lista'), // Label for the button
+              label: const Text('Lista em compra'), // Label for the button
               onPressed: () { // onPressed callback
-                Navigator.push( // Navigating to ListaPage
-                  context, // Current context
-                  MaterialPageRoute(builder: (_) => const ListaPage()), // Route to ListaPage
-                ); // End of Navigator.push
+                Navigator.pushNamed(context, '/comprando');
               }, // End of onPressed
             ), // End of ElevatedButton.icon
             const SizedBox(height: 20), // SizedBox for spacing
+            ElevatedButton.icon(
+  icon: const Icon(Icons.edit_note),
+  label: const Text('Preparar Lista'),
+  onPressed: () {
+    Navigator.pushNamed(context, '/preparar');
+  },
+),
             ElevatedButton.icon( // Another ElevatedButton with icon
               icon: const Icon(Icons.history), // Icon for the button
               label: const Text('Listas Anteriores'), // Label for the button
               onPressed: () { // onPressed callback
-                Navigator.push( // Navigating to HistoricoPage
-                  context, // Current context
-                  MaterialPageRoute(builder: (_) => const HistoricoPage()), // Route to HistoricoPage
-                );
+               Navigator.pushNamed(context, '/historico');
               },
             ),
           ],
