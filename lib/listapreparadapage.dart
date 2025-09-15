@@ -8,7 +8,16 @@ class ListaPreparadaPage extends StatefulWidget {
   @override
   State<ListaPreparadaPage> createState() => _ListaPreparadaPageState();
 }
-
+InputDecoration campoEstilizado(String label, IconData icon) {
+  return InputDecoration(
+    labelText: label,
+    hintText: 'Digite $label...',
+    prefixIcon: Icon(icon),
+    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+    filled: true,
+    fillColor: Colors.grey[100],
+  );
+}
 class _ListaPreparadaPageState extends State<ListaPreparadaPage> {
   final TextEditingController produtoCtrl = TextEditingController();
   final TextEditingController quantidadeCtrl = TextEditingController();
