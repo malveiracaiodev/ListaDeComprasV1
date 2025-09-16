@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
+bool carregouArgumentos = false;
+
 class ListaPage extends StatefulWidget {
   const ListaPage({super.key});
 
@@ -19,9 +21,12 @@ class _ListaPageState extends State<ListaPage> {
   List<Map<String, dynamic>> itens = [];
   double total = 0;
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+
+@override
+void didChangeDependencies() {
+  super.didChangeDependencies();
+
+  if (!carregouArgumentos) {
     final args = ModalRoute.of(context)?.settings.arguments;
     if (args != null && args is List<Map<String, dynamic>>) {
       for (var item in args) {
@@ -33,7 +38,9 @@ class _ListaPageState extends State<ListaPage> {
         });
       }
     }
+    carregouArgumentos = true;
   }
+}
 
   void adicionarItem() {
     final produto = produtoCtrl.text;
@@ -273,9 +280,11 @@ class _ListaPageState extends State<ListaPage> {
     await prefs.setStringList('listas_salvas', listasExistentes);
   }
 
-  @override
-  void dispose() {
+ @override
+void dispose() {
+  if (itens.isNotEmpty) {
     salvarListaAtual();
-    super.dispose();
   }
+  super.dispose();
+}
 }
